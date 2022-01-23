@@ -4,7 +4,6 @@
   "description": "Module to make requests on uberduck",
   "main": "speech.js",
   "dependencies": {
-    "node-fetch": "^2.6.1",
     "request": "^2.88.2"
   },
   "scripts": {
