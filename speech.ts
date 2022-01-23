@@ -3,15 +3,11 @@ import request from 'request'
 function wait() {
     await new Promise((resolve) => setTimeout((resolve), 1000))
 }
-function getAudioUrl(
-    key: string,
-    secretKey: string,
-    carachter: string,
-    text: string
-) {
+function getAudioUrl(key: string, secretKey: string, carachter: string, text: string) {
     if (carachter === undefined) throw new Error('Define the carachter voice.')
     if (key === undefined) throw new Error('Define the key you got from uberduck')
     if (carachter === undefined) throw new Error('Define the secret key u got from uberduck.')
+    if (text === undefined) throw new Error('Define the text to speech from uberduck.')
 
     return new Promise(async (resolve, reject) => {
         await request({
