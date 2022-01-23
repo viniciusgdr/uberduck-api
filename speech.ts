@@ -1,10 +1,7 @@
-import { resolve } from "path/posix"
-
-const request = require('request')
-const fetch = require('node-fetch')
+import request from 'request'
 
 function wait() {
-    return new Promise(resolve => resolve(20))
+    await new Promise((resolve) => setTimeout((resolve), 1000))
 }
 function getAudioUrl(
     key: string,
@@ -17,34 +14,28 @@ function getAudioUrl(
     if (carachter === undefined) throw new Error('Define the secret key u got from uberduck.')
 
     return new Promise(async (resolve, reject) => {
-    await request({
-        url: 'https://api.uberduck.ai/speak',
-        method: 'POST',
-        body: `{"speech": "${text}","voice": "${carachter}"}`,
-        auth: {
-            'user': key,
-            'pass': secretKey
-        }
-    }, async (erro, response, body) => {
-        if (erro) throw new Error('Error when making request, verify if yours params (key, secretKey, carachter) are correct.')
-        const audioResponse: string = 'https://api.uberduck.ai/speak-status?uuid=' + JSON.parse(body).uuid
-        let jsonResponse: any = false
-        async function getJson(url) {
-            let jsonResult: any = undefined
-            await fetch(url)
-                .then(res => res.json())
-                .then(json => {
-                    jsonResult = json
+        await request({
+            url: 'https://api.uberduck.ai/speak',
+            method: 'POST',
+            body: `{"speech": "${text}","voice": "${carachter}"}`,
+            auth: {
+                'user': key,
+                'pass': secretKey
+            }
+        }, async (error, response, body) => {
+            if (error) throw new Error('Error when making request, verify if yours params (key, secretKey, carachter) are correct.')
+            const audioResponse: string = 'https://api.uberduck.ai/speak-status?uuid=' + JSON.parse(body).uuid
+            let jsonResponse: any = false
+            async function getJson(url) {
+                await request(url, function (error, response, body) {
+                    return body
                 })
-            return jsonResult
-        }
-        
-        jsonResponse = await getJson(audioResponse)
-        while (jsonResponse.path === null) jsonResponse = await getJson(audioResponse)
-
-        resolve(jsonResponse.path)
+            }
+            jsonResponse = await getJson(audioResponse)
+            while (jsonResponse.path === null) jsonResponse = await getJson(audioResponse)
+            resolve(jsonResponse.path)
+        })
     })
- })
 }
 
 export {
