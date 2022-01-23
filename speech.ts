@@ -3,7 +3,7 @@ import request from 'request'
 function wait() {
     await new Promise((resolve) => setTimeout((resolve), 1000))
 }
-function getAudioUrl(key: string, secretKey: string, carachter: string, text: string) {
+function getAudioUberduck(key: string, secretKey: string, carachter: string, text: string) {
     if (carachter === undefined) throw new Error('Define the carachter voice.')
     if (key === undefined) throw new Error('Define the key you got from uberduck')
     if (carachter === undefined) throw new Error('Define the secret key u got from uberduck.')
@@ -34,6 +34,4 @@ function getAudioUrl(key: string, secretKey: string, carachter: string, text: st
     })
 }
 
-export {
-    getAudioUrl
-}
+export default getAudioUberduck
