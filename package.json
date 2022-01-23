@@ -6,6 +6,10 @@
   "dependencies": {
     "request": "^2.88.2"
   },
+  "devDependencies": {
+    "@types/request": "^2.48.7",
+    "typescript": "^4.6.0-dev.20211119"
+  }
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
